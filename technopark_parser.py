@@ -1,22 +1,27 @@
 from typing import Union
-from parser import Parser
-from item import Item
+
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
+from parser import Parser
+from item import Item
+
+
 class TechnoparkParser(Parser):
 
-    def __init__(self, product_name: str, price: Union[float, int], url: str) -> None:
-        
+
+    def __init__(self,
+                 product_name: str,
+                 price: Union[float, int],
+                 url: str) -> None:
         self.product_name = product_name
         self.price = price
         self.url = 'https://technopark.ru'
 
     def scraping(self):
-
         driver = webdriver.Chrome(ChromeDriverManager().install())
         driver.get(self.url)
         searchbar = driver.find_element(By.XPATH, '//*[@id="header-search-input-main"]')
