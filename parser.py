@@ -1,5 +1,6 @@
-from typing import List, Union
 from item import Item
+
+from typing import List, Union
 from abc import ABC, abstractclassmethod
 
 class Parser(ABC):
