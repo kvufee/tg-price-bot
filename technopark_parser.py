@@ -29,8 +29,8 @@ class TechnoparkParser(Parser):
         containers = soup.find_all('div', attrs={'class':'product-card-big__container'})
         
         items = []
+
         for container in containers:
-            
             url = 'https://technopark.ru' + container.find('a')['href']
             title = container.find('a')['title']
             price = container.find('div', attrs={'class':'product-prices__price'}).get_text()
@@ -38,4 +38,4 @@ class TechnoparkParser(Parser):
 
             items.append(Item(url=url, product_name=title, price=price, pic_url = pic))
         
-        return(items)
+        return items
