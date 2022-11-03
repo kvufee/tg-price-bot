@@ -2,10 +2,10 @@ import telebot
 
 from telebot import types
 
+from config import TOKEN
 
-token = '5727630538:AAEbDBQ-o18UH6ol8FZAyaRzg9tH2DgXFqo'
 
-bot = telebot.TeleBot(token)
+bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -20,9 +20,8 @@ def option_button(message):
     itembtn4 = types.KeyboardButton('About')
 
     markup.add(itembtn1, itembtn2, itembtn3, itembtn4)
-
-markup = types.ReplyKeyboardRemove(selective=False)
-bot.send_message(chat_id, "How can I help you?", reply_markup=markup)
+    markup = types.ReplyKeyboardRemove(selective=False)
+    bot.send_message(message.chat.id, "How can I help you?", reply_markup=markup)
 
 
 bot.infinity_polling()
