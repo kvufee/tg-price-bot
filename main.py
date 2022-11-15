@@ -28,7 +28,7 @@ def keyboard_markup() -> types.ReplyKeyboardMarkup:
     return markup
 
 
-def handle_message(message):
+def handle_message(message) -> None:
     match message.text:  
 
         case 'Technopark':
@@ -50,7 +50,6 @@ def log_script(message):
 
 
     return
-
 
 
 
