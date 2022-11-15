@@ -20,6 +20,7 @@ class TechnoparkParser(Parser):
         self.product_name = product_name
         self.price = price
         self.url = 'https://technopark.ru'
+        
 
     def scraping(self):
         driver = webdriver.Chrome(ChromeDriverManager().install())
