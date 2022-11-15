@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
-from parser import Parser
+from parsers.parser import Parser
 from item import Item
 
 
@@ -20,7 +20,7 @@ class TechnoparkParser(Parser):
         self.product_name = product_name
         self.price = price
         self.url = 'https://technopark.ru'
-        
+
 
     def scraping(self):
         driver = webdriver.Chrome(ChromeDriverManager().install())
