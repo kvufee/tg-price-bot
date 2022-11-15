@@ -29,11 +29,10 @@ def keyboard_markup() -> types.ReplyKeyboardMarkup:
 
 
 def handle_message(message):
-    match message.txt:
-
+    match message.text:  
 
         case 'Technopark':
-            bot.send_message(message.chat.id, 'What do you want to find?', reply_markup=types.ReplyKeyboardRemove())
+            message = bot.send_message(message.chat.id, 'What do you want to find?', reply_markup=types.ReplyKeyboardRemove())
             bot.register_next_step_handler(message, technopark_script)
 
         case 'Search log':
@@ -42,13 +41,17 @@ def handle_message(message):
 
 
 def technopark_script(message):
-    
+    product_list = TechnoparkParser.item_list(product_name=message.text)
 
-    return 
+
+    return product_list
 
 def log_script(message):
 
 
     return
+
+
+
 
 bot.infinity_polling()
