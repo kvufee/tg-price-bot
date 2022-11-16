@@ -1,38 +1,37 @@
 import telebot
-
 from telebot import types
 
-from configuration.config import TOKEN
+import configuration.config as cfg
 from parsers.technopark_parser import TechnoparkParser
 
 
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(cfg.TOKEN)
 
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message) -> None:
     markup = keyboard_markup()
 
-    bot.send_message(message.chat.id, 'Greetings🤨', reply_markup=markup)
+    bot.send_message(message.chat.id, cfg.WELCOME_MSG, reply_markup=markup)
     bot.register_next_step_handler(message, handle_message)
 
 
 def keyboard_markup() -> types.ReplyKeyboardMarkup:
     markup = types.ReplyKeyboardMarkup()
 
-    tp_button = types.KeyboardButton('Technopark')
-    log_button = types.KeyboardButton('Search log')
+    tp_button = types.KeyboardButton(cfg.TECHNOPARK_BTN)
+    log_button = types.KeyboardButton(cfg.SEARCHLOG_BTN)
 
     markup.add(tp_button, log_button)
-
+    
     return markup
 
 
 def handle_message(message) -> None:
     match message.text:  
 
-        case 'Technopark':
-            message = bot.send_message(message.chat.id, 'What do you want to find?', reply_markup=types.ReplyKeyboardRemove())
+        case 'Technopark':  
+            message = bot.send_message(message.chat.id, cfg.REQUEST_QUESTION, reply_markup=types.ReplyKeyboardRemove())
             bot.register_next_step_handler(message, technopark_script)
 
         case 'Search log':
@@ -41,10 +40,10 @@ def handle_message(message) -> None:
 
 
 def technopark_script(message):
-    product_list = TechnoparkParser.item_list(product_name=message.text)
+    products = TechnoparkParser()
+    products = products.scraping(message.text)
+    bot.send_message(message.chat.id, products)
 
-
-    return product_list
 
 def log_script(message):
 
