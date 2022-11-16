@@ -36,7 +36,7 @@ class TechnoparkParser(Parser):
         for container in containers:
             url = 'https://technopark.ru' + container.find('a')['href']
             title = container.find('a')['title']
-            price = container.find('div', attrs={'class':'product-prices__price'}).get_text()[4:]
+            price = container.find('div', attrs={'class':'product-prices__price'}).get_text()
             pic = container.find('img', attrs={'class':'tp-lazy-image product-card-image__img'})
 
             items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
