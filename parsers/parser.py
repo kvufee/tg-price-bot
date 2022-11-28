@@ -9,3 +9,4 @@ class Parser(ABC):
     @abstractclassmethod
     def scraping(self, product_name: str) -> List[Item]:
         pass
+    

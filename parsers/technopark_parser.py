@@ -43,3 +43,4 @@ class TechnoparkParser(Parser):
             items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
         
         return items
+        

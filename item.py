@@ -15,3 +15,4 @@ class Item:
 
     def __repr__(self) -> str:
         return f"{self.product_name}, {self.price}, {self.url}"
+        
