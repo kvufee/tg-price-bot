@@ -19,19 +19,19 @@ class TechnoparkParser(Parser):
 
 
     def scraping(self, product_name: str) -> List[Item]:
-        driver = webdriver.Chrome(ChromeDriverManager().install())
-        driver.get(self.url)
-        searchbar = driver.find_element(By.XPATH, '//*[@id="header-search-input-main"]')
-        searchbar.send_keys(product_name)
-        searchbar.send_keys(Keys.RETURN)
+        with webdriver.Chrome(ChromeDriverManager().install()) as driver:
+            driver.get(self.url)
+            searchbar = driver.find_element(By.XPATH, '//*[@id="header-search-input-main"]')
+            searchbar.send_keys(product_name)
+            searchbar.send_keys(Keys.RETURN)
 
-        time.sleep(cfg.SLEEP_DURATION)
+            time.sleep(cfg.SLEEP_DURATION)
 
-        page_content = driver.page_source
-        soup = BeautifulSoup(page_content, 'lxml')
+            page_content = driver.page_source
+            soup = BeautifulSoup(page_content, 'lxml')
 
         containers = soup.find_all('div', attrs={'class':'product-card-big__container'})
-        
+            
         items = []
 
         for container in containers:
@@ -41,6 +41,5 @@ class TechnoparkParser(Parser):
             pic = container.find('img', attrs={'class':'tp-lazy-image product-card-image__img'})
 
             items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
-        
+            
         return items
-        
