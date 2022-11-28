@@ -49,5 +49,5 @@ def technopark_script(message):
 #     return
 
 
-
-bot.infinity_polling()
+if __name__ == '__main__':
+    bot.infinity_polling()
