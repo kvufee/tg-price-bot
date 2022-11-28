@@ -1,7 +1,7 @@
-from item import Item
-
 from typing import List, Union
 from abc import ABC, abstractclassmethod
+
+from item import Item
 
 
 class Parser(ABC):
