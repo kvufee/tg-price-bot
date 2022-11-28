@@ -9,6 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from .parser import Parser
 from item import Item
+import configuration.config as cfg
 
 
 class TechnoparkParser(Parser):
@@ -24,7 +25,7 @@ class TechnoparkParser(Parser):
         searchbar.send_keys(product_name)
         searchbar.send_keys(Keys.RETURN)
 
-        time.sleep(5)
+        time.sleep(cfg.SLEEP_DURATION)
 
         page_content = driver.page_source
         soup = BeautifulSoup(page_content, 'lxml')
