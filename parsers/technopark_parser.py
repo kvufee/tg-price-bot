@@ -18,7 +18,7 @@ class TechnoparkParser(Parser):
         self.url = 'https://technopark.ru'
 
 
-    def scraping(self, product_name: str) -> List[str]:
+    def scraping(self, product_name: str) -> List[Item]:
         driver = webdriver.Chrome(ChromeDriverManager().install())
         driver.get(self.url)
         searchbar = driver.find_element(By.XPATH, '//*[@id="header-search-input-main"]')

@@ -7,5 +7,5 @@ from item import Item
 class Parser(ABC):
 
     @abstractclassmethod
-    def scraping(self, product_name: str) -> List[str]:
+    def scraping(self, product_name: str) -> List[Item]:
         pass
