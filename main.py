@@ -36,7 +36,7 @@ def handle_message(message) -> None:
 
         case 'Search log':
             bot.send_message(message.chat.id, reply_markup=types.ReplyKeyboardRemove())
-            bot.register_next_step_handler(message, log_script)
+            bot.register_next_step_handler(message)  #log_script
 
 
 def technopark_script(message):
@@ -45,10 +45,8 @@ def technopark_script(message):
     bot.send_message(message.chat.id, products)
 
 
-def log_script(message):
-
-
-    return
+# def log_script(message):
+#     return
 
 
 
