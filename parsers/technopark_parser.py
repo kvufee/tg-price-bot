@@ -35,18 +35,19 @@ class TechnoparkParser(Parser):
             time.sleep(cfg.SLEEP_DURATION)
 
             page_content = driver.page_source
-            soup = BeautifulSoup(page_content, 'lxml')
 
-            containers = soup.find_all('div', attrs={'class':'product-card-big__container'})
+        soup = BeautifulSoup(page_content, 'lxml')
+
+        containers = soup.find_all('div', attrs={'class':'product-card-big__container'})
                 
-            items = []
+        items = []
 
-            for container in containers:
-                url = self.url + container.find('a')['href']
-                title = container.find('a')['title']
-                price = container.find('div', attrs={'class':'product-prices__price'}).get_text()
-                pic = container.find('img', attrs={'class':'tp-lazy-image product-card-image__img'})
+        for container in containers:
+            url = self.url + container.find('a')['href']
+            title = container.find('a')['title']
+            price = container.find('div', attrs={'class':'product-prices__price'}).get_text()
+            pic = container.find('img', attrs={'class':'tp-lazy-image product-card-image__img'})
 
-                items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
+            items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
             
         return items
