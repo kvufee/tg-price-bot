@@ -42,7 +42,10 @@ def handle_message(message) -> None:
 def technopark_script(message):
     products = TechnoparkParser()
     products = products.scraping(message.text)
+    
     bot.send_message(message.chat.id, products)
+
+    send_welcome(message, cfg.REPEAT_MESSAGE)
 
 
 # def log_script(message):
@@ -51,4 +54,3 @@ def technopark_script(message):
 
 if __name__ == '__main__':
     bot.infinity_polling()
-    
