@@ -13,3 +13,5 @@ SEARCHLOG_BTN = 'Search log'
 REQUEST_QUESTION = 'What are you looking for?'
 
 SLEEP_DURATION = 5
+
+REPEAT_MESSAGE = 'Wanna find something else?'
