@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
 from .parser import Parser
@@ -19,8 +20,14 @@ class TechnoparkParser(Parser):
 
 
     def scraping(self, product_name: str) -> List[Item]:
-        with webdriver.Chrome(ChromeDriverManager().install()) as driver:
+        options = Options()
+        options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36')
+
+        with webdriver.Chrome(ChromeDriverManager().install(), options=options) as driver:
             driver.get(self.url)
+            
+            time.sleep(cfg.SLEEP_DURATION)
+
             searchbar = driver.find_element(By.XPATH, '//*[@id="header-search-input-main"]')
             searchbar.send_keys(product_name)
             searchbar.send_keys(Keys.RETURN)
@@ -30,16 +37,16 @@ class TechnoparkParser(Parser):
             page_content = driver.page_source
             soup = BeautifulSoup(page_content, 'lxml')
 
-        containers = soup.find_all('div', attrs={'class':'product-card-big__container'})
-            
-        items = []
+            containers = soup.find_all('div', attrs={'class':'product-card-big__container'})
+                
+            items = []
 
-        for container in containers:
-            url = 'https://technopark.ru' + container.find('a')['href']
-            title = container.find('a')['title']
-            price = container.find('div', attrs={'class':'product-prices__price'}).get_text()
-            pic = container.find('img', attrs={'class':'tp-lazy-image product-card-image__img'})
+            for container in containers:
+                url = self.url + container.find('a')['href']
+                title = container.find('a')['title']
+                price = container.find('div', attrs={'class':'product-prices__price'}).get_text()
+                pic = container.find('img', attrs={'class':'tp-lazy-image product-card-image__img'})
 
-            items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
+                items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
             
         return items
