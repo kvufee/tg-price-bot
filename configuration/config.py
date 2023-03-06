@@ -9,6 +9,7 @@ TOKEN = os.environ.get('TOKEN')
 
 WELCOME_MSG = 'Greetings'
 TECHNOPARK_BTN = 'Technopark'
+MVIDEO_BTN = 'Mvideo'
 SEARCHLOG_BTN = 'Search log'
 REQUEST_QUESTION = 'What are you looking for?'
 
