@@ -15,7 +15,7 @@ import configuration.config as cfg
 class MvideoParser(Parser):
     
     def __init__(self) -> None:
-        self.url = 'https://www.mvideo.ru/'
+        self.url = 'https://www.mvideo.ru'
     
     def scraping(self, product_name: str) -> List[Item]:
         options = Options()
@@ -38,4 +38,11 @@ class MvideoParser(Parser):
         items = []
 
         for container in containers:
-            url = self.url + container.find('a')
+            url = self.url + container.find('a')['href']
+            title = container.find('a', attrs={'class':'product-title__text product-title--clamp'})
+            price = container.find('div', attrs={'class':'price__main-value'})
+            pic = container.find('img', attrs={'class':'product-picture__img product-picture__img--grid'})
+
+            items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
+
+        return items
