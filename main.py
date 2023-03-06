@@ -20,9 +20,10 @@ def keyboard_markup() -> types.ReplyKeyboardMarkup:
     markup = types.ReplyKeyboardMarkup()
 
     tp_button = types.KeyboardButton(cfg.TECHNOPARK_BTN)
+    mv_button = types.KeyboardButton(cfg.MVIDEO_BTN)
     log_button = types.KeyboardButton(cfg.SEARCHLOG_BTN)
 
-    markup.add(tp_button, log_button)
+    markup.add(tp_button, mv_button, log_button)
     
     return markup
 
