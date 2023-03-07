@@ -13,6 +13,7 @@ MVIDEO_BTN = 'Mvideo'
 SEARCHLOG_BTN = 'Search log'
 REQUEST_QUESTION = 'What are you looking for?'
 
-SLEEP_DURATION = 5
+SLEEP_DURATION = 3
+INPUT_DURATION = 1
 
 REPEAT_MESSAGE = 'Wanna find something else?'
