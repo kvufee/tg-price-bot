@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
 from .parser import Parser
@@ -18,7 +17,6 @@ class MvideoParser(Parser):
         self.url = 'https://www.mvideo.ru'
     
     def scraping(self, product_name: str) -> List[Item]:
-        options = Options()
 
         with webdriver.Chrome(ChromeDriverManager().install()) as driver:
             driver.get(self.url)
