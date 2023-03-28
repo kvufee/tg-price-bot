@@ -20,8 +20,9 @@ class TechnoparkParser(Parser):
 
 
     def scraping(self, product_name: str) -> List[Item]:
-        options = Options()
-        options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36')
+        options = webdriver.ChromeOptions()
+        options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36')
+        options.add_argument('accept-encoding=gzip, deflate, br')
 
         with webdriver.Chrome(ChromeDriverManager().install(), options=options) as driver:
             driver.get(self.url)
