@@ -38,10 +38,10 @@ class MvideoParser(Parser):
         items = []
 
         for container in containers:
-            url = self.url + container.find_all('a')
-            title = container.find_all('a', attrs={'class':'product-title__text product-title--clamp'}).get_text()
-            price = container.find_all('span', attrs={'class':'price__main-value'}).get_text()
-            pic = container.find_all('img')['src']
+            url = self.url + container.find_all('a', {'class':'product-title__text'})['href']
+            title = container.find_all('a', attrs={'class':'product-title__text'})
+            price = container.find_all('span', attrs={'class':'price__main-value'})
+            pic = container.find_all('img', {'class':'product-picture__img'})
 
             items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
         
