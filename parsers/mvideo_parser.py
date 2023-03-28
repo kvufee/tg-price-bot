@@ -26,21 +26,23 @@ class MvideoParser(Parser):
             searchbar = driver.find_element(By.XPATH, '//*[@id="1"]')
             searchbar.send_keys(product_name)
             searchbar.send_keys(Keys.RETURN)
+            
+            time.sleep(cfg.INPUT_DURATION)
 
             page_content = driver.page_source
 
         soup = BeautifulSoup(page_content, 'lxml')
 
-        containers = soup.find_all('div', attrs={'class':'ng-star-inserted product-cards-row'})
+        containers = soup.find_all('div', attrs={'class':'product-cards-row ng-star-inserted'})
 
         items = []
 
         for container in containers:
-            url = self.url + container.find('a')['href']
-            title = container.find('a', attrs={'class':'product-title__text product-title--clamp'})
-            price = container.find('div', attrs={'class':'price__main-value'})
-            pic = container.find('img', attrs={'class':'product-picture__img product-picture__img--grid'})
+            url = self.url + container.find_all('a')
+            title = container.find_all('a', attrs={'class':'product-title__text product-title--clamp'}).get_text()
+            price = container.find_all('span', attrs={'class':'price__main-value'}).get_text()
+            pic = container.find_all('img')['src']
 
             items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
-
+        
         return items
