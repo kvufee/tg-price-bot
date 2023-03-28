@@ -3,6 +3,7 @@ from telebot import types
 
 import configuration.config as cfg
 from parsers.technopark_parser import TechnoparkParser
+from parsers.mvideo_parser import MvideoParser
 
 
 bot = telebot.TeleBot(cfg.TOKEN)
@@ -35,6 +36,10 @@ def handle_message(message) -> None:
             message = bot.send_message(message.chat.id, cfg.REQUEST_QUESTION, reply_markup=types.ReplyKeyboardRemove())
             bot.register_next_step_handler(message, technopark_script)
 
+        case 'Mvideo':
+            message = bot.send_message(message.chat.id, cfg.REQUEST_QUESTION, reply_markup=types.ReplyKeyboardRemove())
+            bot.register_next_step_handler(message, mvideo_script)
+
         case 'Search log':
             bot.send_message(message.chat.id, reply_markup=types.ReplyKeyboardRemove())
             bot.register_next_step_handler(message)  #log_script
@@ -48,6 +53,14 @@ def technopark_script(message):
 
     send_welcome(message, cfg.REPEAT_MESSAGE)
 
+
+def mvideo_script(message):
+    products = MvideoParser()
+    products = products.scraping(message.text)
+
+    bot.send_message(message.chat.id, products)
+
+    send_welcome(message, cfg.REPEAT_MESSAGE)
 
 # def log_script(message):
 #     return
