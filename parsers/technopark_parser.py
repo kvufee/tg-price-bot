@@ -20,9 +20,10 @@ class TechnoparkParser(Parser):
 
 
     def scraping(self, product_name: str) -> List[Item]:
-        options = webdriver.ChromeOptions()
+        options = Options()
         options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36')
         options.add_argument('accept-encoding=gzip, deflate, br')
+        options.add_argument("window-size=1920,1080")
 
         with webdriver.Chrome(ChromeDriverManager().install(), options=options) as driver:
             driver.get(self.url)
@@ -30,10 +31,19 @@ class TechnoparkParser(Parser):
             time.sleep(cfg.SLEEP_DURATION)
 
             searchbar = driver.find_element(By.XPATH, '//*[@id="header-search-input-main"]')
+            searchbar.click()
+            searchbar.clear()
             searchbar.send_keys(product_name)
-            searchbar.send_keys(Keys.RETURN)
+            searchbar.send_keys(Keys.ENTER)
 
             time.sleep(cfg.SLEEP_DURATION)
+            
+            scroll = False
+
+            if scroll:
+                for i in range(5):
+                    time.sleep(0.2)
+                    driver.execute_script(f"window.scrollTo({i * 300}, {(i+1)*300})") 
 
             page_content = driver.page_source
 
