@@ -11,6 +11,7 @@ from .parser import Parser
 from item import Item
 import configuration.config as cfg
 
+
 class MvideoParser(Parser):
     
     def __init__(self) -> None:
