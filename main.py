@@ -4,6 +4,7 @@ from telebot import types
 import configuration.config as cfg
 from item import Item
 from parsers.mvideo_parser import MvideoParser
+from parsers.eldorado_parser import EldoradoParser
 
 
 bot = telebot.TeleBot(cfg.TOKEN)
@@ -21,9 +22,10 @@ def keyboard_markup() -> types.ReplyKeyboardMarkup:
     markup = types.ReplyKeyboardMarkup()
 
     mv_button = types.KeyboardButton(cfg.MVIDEO_BTN)
+    ed_button = types.KeyboardButton(cfg.ELDORADO_BTN)
     log_button = types.KeyboardButton(cfg.SEARCHLOG_BTN)
 
-    markup.add(mv_button, log_button)
+    markup.add(mv_button, ed_button, log_button)
     
     return markup
 
@@ -34,6 +36,10 @@ def handle_message(message) -> None:
         case 'Mvideo':
             message = bot.send_message(message.chat.id, cfg.REQUEST_QUESTION, reply_markup=types.ReplyKeyboardRemove())
             bot.register_next_step_handler(message, mvideo_script)
+
+        case 'Eldorado':
+            message = bot.send_message(message.chat.id, cfg.REQUEST_QUESTION, reply_markup=types.ReplyKeyboardRemove())
+            bot.register_next_step_handler(message, eldorado_script)
 
         case 'Search log':
             bot.send_message(message.chat.id, reply_markup=types.ReplyKeyboardRemove())
@@ -47,6 +53,18 @@ def mvideo_script(message):
     picture = products[0].pic_url
 
     bot.send_photo(message.chat.id, photo=picture, caption=products)
+
+    send_welcome(message, cfg.REPEAT_MESSAGE)
+
+def eldorado_script(message):
+    products = EldoradoParser()
+    products = products.scraping(message.text)
+
+    # picture = products[0].pic_url
+
+    # bot.send_photo(message.chat.id, photo=picture, caption=products)
+
+    bot.send_message(message.chat.id, products)
 
     send_welcome(message, cfg.REPEAT_MESSAGE)
 
