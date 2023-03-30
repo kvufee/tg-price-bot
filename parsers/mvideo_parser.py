@@ -41,7 +41,7 @@ class MvideoParser(Parser):
             url = self.url + container.find('a').get('href')
             title = container.find('a', attrs={'class':'product-title__text product-title--clamp'}).text
             price = container.find('span', attrs={'class':'price__main-value'}).text
-            pic = container.find('img', {'class':'product-picture__img'})
+            pic = 'https:' + container.find('img').get('src')
 
             items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
 
