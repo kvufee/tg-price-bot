@@ -2,6 +2,7 @@ import telebot
 from telebot import types
 
 import configuration.config as cfg
+from item import Item
 from parsers.technopark_parser import TechnoparkParser
 from parsers.mvideo_parser import MvideoParser
 
@@ -48,7 +49,7 @@ def handle_message(message) -> None:
 def technopark_script(message):
     products = TechnoparkParser()
     products = products.scraping(message.text)
-    
+
     bot.send_message(message.chat.id, products)
 
     send_welcome(message, cfg.REPEAT_MESSAGE)
@@ -58,7 +59,9 @@ def mvideo_script(message):
     products = MvideoParser()
     products = products.scraping(message.text)
 
-    bot.send_message(message.chat.id, products)
+    picture = products[0].pic_url
+
+    bot.send_photo(message.chat.id, photo=picture, caption=products)
 
     send_welcome(message, cfg.REPEAT_MESSAGE)
 
