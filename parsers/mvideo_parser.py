@@ -33,17 +33,16 @@ class MvideoParser(Parser):
 
         soup = BeautifulSoup(page_content, 'lxml')
 
-        containers = soup.find('div', attrs={'class':'product-cards-row ng-star-inserted'})
+        containers = soup.find_all('div', attrs={'class':'product-cards-layout product-cards-layout--grid'})
 
         items = []
 
         for container in containers:
-            # url = self.url + container.find_all('a', {'class':'product-title__text'})
+            url = self.url + container.find('a').get('href')
             title = container.find('a', attrs={'class':'product-title__text product-title--clamp'}).text
-            # price = container.find_all('span', attrs={'class':'price__main-value'})
-            # pic = container.find_all('img', {'class':'product-picture__img'})
+            price = container.find_all('span', attrs={'class':'price__main-value'}).text
+            pic = container.find_all('img', {'class':'product-picture__img'})
 
-            # items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
-            items.append(Item(product_name=title))
-        
+            items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
+
         return items
