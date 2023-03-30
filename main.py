@@ -3,7 +3,6 @@ from telebot import types
 
 import configuration.config as cfg
 from item import Item
-from parsers.technopark_parser import TechnoparkParser
 from parsers.mvideo_parser import MvideoParser
 
 
@@ -21,21 +20,16 @@ def send_welcome(message) -> None:
 def keyboard_markup() -> types.ReplyKeyboardMarkup:
     markup = types.ReplyKeyboardMarkup()
 
-    tp_button = types.KeyboardButton(cfg.TECHNOPARK_BTN)
     mv_button = types.KeyboardButton(cfg.MVIDEO_BTN)
     log_button = types.KeyboardButton(cfg.SEARCHLOG_BTN)
 
-    markup.add(tp_button, mv_button, log_button)
+    markup.add(mv_button, log_button)
     
     return markup
 
 
 def handle_message(message) -> None:
     match message.text:  
-
-        case 'Technopark':  
-            message = bot.send_message(message.chat.id, cfg.REQUEST_QUESTION, reply_markup=types.ReplyKeyboardRemove())
-            bot.register_next_step_handler(message, technopark_script)
 
         case 'Mvideo':
             message = bot.send_message(message.chat.id, cfg.REQUEST_QUESTION, reply_markup=types.ReplyKeyboardRemove())
@@ -44,15 +38,6 @@ def handle_message(message) -> None:
         case 'Search log':
             bot.send_message(message.chat.id, reply_markup=types.ReplyKeyboardRemove())
             bot.register_next_step_handler(message)  #log_script
-
-
-def technopark_script(message):
-    products = TechnoparkParser()
-    products = products.scraping(message.text)
-
-    bot.send_message(message.chat.id, products)
-
-    send_welcome(message, cfg.REPEAT_MESSAGE)
 
 
 def mvideo_script(message):
