@@ -8,7 +8,7 @@ load_dotenv()
 TOKEN = os.environ.get('TOKEN')
 
 WELCOME_MSG = 'Greetings'
-TECHNOPARK_BTN = 'Technopark (NOT WORKING)'
+ELDORADO_BTN = 'Eldorado'
 MVIDEO_BTN = 'Mvideo'
 SEARCHLOG_BTN = 'Search log'
 REQUEST_QUESTION = 'What are you looking for?'
