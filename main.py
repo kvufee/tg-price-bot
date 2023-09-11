@@ -50,7 +50,7 @@ def mvideo_script(message):
     products = MvideoParser()
     products = products.scraping(message.text)
 
-    picture = products[0].pic_url
+    picture = products.pic_url
 
     bot.send_photo(message.chat.id, photo=picture, caption=products)
 
