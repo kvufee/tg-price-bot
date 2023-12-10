@@ -12,11 +12,11 @@ from item import Item
 import configuration.config as cfg
 
 
-class MvideoParser(Parser):
-    
+class EldoradoParser(Parser):
+
     def __init__(self) -> None:
-        self.url = 'https://www.mvideo.ru'
-    
+        self.url = 'https://www.eldorado.ru'
+
     def scraping(self, product_name: str) -> List[Item]:
 
         with webdriver.Chrome(ChromeDriverManager().install()) as driver:
@@ -24,7 +24,7 @@ class MvideoParser(Parser):
 
             time.sleep(cfg.SLEEP_DURATION)
 
-            searchbar = driver.find_element(By.XPATH, '//*[@id="1"]')
+            searchbar = driver.find_element(By.XPATH, '//*[@id="search-form"]/div[1]/input')
             searchbar.send_keys(product_name)
             searchbar.send_keys(Keys.RETURN)
             
@@ -34,15 +34,15 @@ class MvideoParser(Parser):
 
         soup = BeautifulSoup(page_content, 'lxml')
 
-        containers = soup.find_all('div', attrs={'class':'product-cards-layout product-cards-layout--grid'})
+        containers = soup.find_all('div', attrs={'class':'cc'})
 
         items = []
 
         for container in containers:
             url = self.url + container.find('a').get('href')
-            title = container.find('a', attrs={'class':'product-title__text product-title--clamp'}).text
-            price = container.find('span', attrs={'class':'price__main-value'}).text
-            pic = 'https:' + container.find('img').get('src')
+            title = container.find('a').text 
+            price = container.find('span').text
+            pic = container.find('img').get('src')
 
             items.append(Item(url=url, product_name=title, price=price, pic_url=pic))
 

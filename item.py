@@ -1,5 +1,6 @@
 from typing import Union
 
+
 class Item:
 
     def __init__(self, 
@@ -12,7 +13,6 @@ class Item:
         self.url = url
         self.pic_url = pic_url
     
-
     def __repr__(self) -> str:
         return f"{self.product_name}, {self.price}, {self.url}"
         

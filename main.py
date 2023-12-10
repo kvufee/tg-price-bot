@@ -2,7 +2,9 @@ import telebot
 from telebot import types
 
 import configuration.config as cfg
-from parsers.technopark_parser import TechnoparkParser
+from item import Item
+from parsers.mvideo_parser import MvideoParser
+from parsers.eldorado_parser import EldoradoParser
 
 
 bot = telebot.TeleBot(cfg.TOKEN)
@@ -19,10 +21,11 @@ def send_welcome(message) -> None:
 def keyboard_markup() -> types.ReplyKeyboardMarkup:
     markup = types.ReplyKeyboardMarkup()
 
-    tp_button = types.KeyboardButton(cfg.TECHNOPARK_BTN)
+    mv_button = types.KeyboardButton(cfg.MVIDEO_BTN)
+    ed_button = types.KeyboardButton(cfg.ELDORADO_BTN)
     log_button = types.KeyboardButton(cfg.SEARCHLOG_BTN)
 
-    markup.add(tp_button, log_button)
+    markup.add(mv_button, ed_button, log_button)
     
     return markup
 
@@ -30,23 +33,40 @@ def keyboard_markup() -> types.ReplyKeyboardMarkup:
 def handle_message(message) -> None:
     match message.text:  
 
-        case 'Technopark':  
+        case 'Mvideo':
             message = bot.send_message(message.chat.id, cfg.REQUEST_QUESTION, reply_markup=types.ReplyKeyboardRemove())
-            bot.register_next_step_handler(message, technopark_script)
+            bot.register_next_step_handler(message, mvideo_script)
+
+        case 'Eldorado':
+            message = bot.send_message(message.chat.id, cfg.REQUEST_QUESTION, reply_markup=types.ReplyKeyboardRemove())
+            bot.register_next_step_handler(message, eldorado_script)
 
         case 'Search log':
             bot.send_message(message.chat.id, reply_markup=types.ReplyKeyboardRemove())
             bot.register_next_step_handler(message)  #log_script
 
 
-def technopark_script(message):
-    products = TechnoparkParser()
+def mvideo_script(message):
+    products = MvideoParser()
     products = products.scraping(message.text)
-    
-    bot.send_message(message.chat.id, products)
+
+    picture = products.pic_url
+
+    bot.send_photo(message.chat.id, photo=picture, caption=products)
 
     send_welcome(message, cfg.REPEAT_MESSAGE)
 
+def eldorado_script(message):
+    products = EldoradoParser()
+    products = products.scraping(message.text)
+
+    # picture = products[0].pic_url
+
+    # bot.send_photo(message.chat.id, photo=picture, caption=products)
+
+    bot.send_message(message.chat.id, products)
+
+    send_welcome(message, cfg.REPEAT_MESSAGE)
 
 # def log_script(message):
 #     return
